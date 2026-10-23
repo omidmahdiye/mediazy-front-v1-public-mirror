@@ -61,7 +61,6 @@ export default function ContactPage() {
             { icon: Mail, title: "ایمیل", value: <Num>support@daneshara.io</Num>, sub: "پاسخ در کمتر از 4 ساعت" },
             { icon: MapPin, title: "آدرس دفتر", value: <>تهران، خیابان ولیعصر، کوچه دانش، پلاک <Num>12</Num></>, sub: "طبقه سوم، واحد 6" },
             { icon: Clock, title: "ساعات کاری", value: <><Num>9:00</Num> تا <Num>18:00</Num></>, sub: "پنجشنبه‌ها تا 13:00" },
-            { icon: Clock, title: "ساعات کاری", value: <><Num>9:00</Num> تا <Num>18:00</Num></>, sub: "پنجشنبه‌ها تا 13:00" },
           ].map(({ icon: Icon, title, value, sub }) => (
             <div key={title} className="card flex items-start gap-4 p-5">
               <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-(--radius-btn) bg-primary-50">
