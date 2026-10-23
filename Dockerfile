@@ -1,5 +1,5 @@
 # Deploy-only image for Coolify. Does not modify application source.
-# Build context fetches the canonical zip and runs next build/start as-is.
+# Fetches the canonical daneshara.zip and runs next build/start as-is.
 FROM node:22-bookworm-slim
 
 WORKDIR /app
@@ -8,7 +8,7 @@ RUN apt-get update \
   && apt-get install -y --no-install-recommends curl ca-certificates unzip \
   && rm -rf /var/lib/apt/lists/*
 
-ARG DANESHARA_ZIP_URL=https://tmpfiles.org/dl/w2AkUoo4YnkC/daneshara.zip
+ARG DANESHARA_ZIP_URL=https://tmpfiles.org/dl/1792774997.a12e611743012a8d/w2AkUoo4YnkC/daneshara.zip
 RUN curl -fsSL -o /tmp/daneshara.zip "$DANESHARA_ZIP_URL" \
   && unzip -q /tmp/daneshara.zip -d /tmp \
   && cp -a /tmp/daneshara/. /app/ \
