@@ -1,0 +1,199 @@
+@import "tailwindcss";
+
+/* ============================================================
+   Design Tokens — دانش‌آرا Design System
+   Font stack is swappable: set --font-sans to YekanBakh when licensed.
+   ============================================================ */
+@theme {
+  --font-sans: var(--font-vazirmatn), "YekanBakh", "Vazirmatn", "Segoe UI", Tahoma, sans-serif;
+
+  /* Primary — confident ocean blue */
+  --color-primary-50: #eef5ff;
+  --color-primary-100: #d9e8ff;
+  --color-primary-200: #bcd7ff;
+  --color-primary-300: #8ebdff;
+  --color-primary-400: #5997fb;
+  --color-primary-500: #3374f0;
+  --color-primary-600: #2563eb;
+  --color-primary-700: #1d4fd8;
+  --color-primary-800: #1e42af;
+  --color-primary-900: #1e3a8a;
+  --color-primary-950: #16275c;
+
+  /* Accent — warm amber for CTAs & highlights */
+  --color-accent-50: #fffbeb;
+  --color-accent-100: #fef3c7;
+  --color-accent-200: #fde68a;
+  --color-accent-300: #fcd34d;
+  --color-accent-400: #fbbf24;
+  --color-accent-500: #f59e0b;
+  --color-accent-600: #d97706;
+  --color-accent-700: #b45309;
+
+  /* Semantic */
+  --color-success: #16a34a;
+  --color-success-dark: #15803d;
+  --color-success-light: #f0fdf4;
+  --color-warning: #d97706;
+  --color-warning-dark: #b45309;
+  --color-warning-light: #fffbeb;
+  --color-error: #dc2626;
+  --color-error-dark: #b91c1c;
+  --color-error-light: #fef2f2;
+  --color-info: #0284c7;
+  --color-info-dark: #0369a1;
+  --color-info-light: #f0f9ff;
+
+  /* Radius system */
+  --radius-tag: 6px;
+  --radius-btn: 10px;
+  --radius-field: 14px;
+  --radius-card: 14px;
+  --radius-modal: 20px;
+
+  /* Shadow system — 3 levels */
+  --shadow-card: 0 1px 2px rgb(15 23 42 / 0.05), 0 1px 3px rgb(15 23 42 / 0.05);
+  --shadow-float: 0 4px 6px -2px rgb(15 23 42 / 0.05), 0 12px 24px -4px rgb(15 23 42 / 0.1);
+  --shadow-modal: 0 25px 50px -12px rgb(15 23 42 / 0.25);
+
+  /* Typographic scale: 11 / 13 / 14 / 16 / 18 / 20 / 24 / 28 / 32 / 40 / 48 */
+  --text-2xs: 11px;
+  --text-2xs--line-height: 1.5;
+  --text-xs: 13px;
+  --text-xs--line-height: 1.5;
+  --text-sm: 14px;
+  --text-sm--line-height: 1.7;
+  --text-base: 16px;
+  --text-base--line-height: 1.75;
+  --text-lg: 18px;
+  --text-lg--line-height: 1.7;
+  --text-xl: 20px;
+  --text-xl--line-height: 1.5;
+  --text-2xl: 24px;
+  --text-2xl--line-height: 1.4;
+  --text-3xl: 28px;
+  --text-3xl--line-height: 1.4;
+  --text-4xl: 32px;
+  --text-4xl--line-height: 1.35;
+  --text-5xl: 40px;
+  --text-5xl--line-height: 1.3;
+  --text-6xl: 48px;
+  --text-6xl--line-height: 1.3;
+}
+
+@layer base {
+  * {
+    letter-spacing: 0 !important;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-slate-50 text-slate-800 antialiased;
+    font-feature-settings: "ss01";
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-primary-600);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  ::selection {
+    background: var(--color-primary-100);
+  }
+  input[type="checkbox"] {
+    accent-color: var(--color-primary-600);
+  }
+}
+
+@layer components {
+  .container-site {
+    @apply mx-auto w-full max-w-[1248px] px-4 sm:px-6;
+  }
+
+  /* ---------- Buttons ---------- */
+  .btn {
+    @apply inline-flex cursor-pointer items-center justify-center gap-2 rounded-(--radius-btn) font-medium transition-colors duration-200 select-none disabled:pointer-events-none disabled:opacity-50;
+  }
+  .btn-sm { @apply h-8 min-w-20 px-4 text-xs; }
+  .btn-md { @apply h-10 min-w-[120px] px-5 text-sm; }
+  .btn-lg { @apply h-12 min-w-[120px] px-6 text-base; }
+  .btn-icon { @apply h-10 w-10 min-w-0 p-0; }
+  .btn-primary { @apply bg-primary-600 text-white hover:bg-primary-700 active:bg-primary-800; }
+  .btn-accent { @apply bg-accent-400 text-slate-900 hover:bg-accent-500 active:bg-accent-600; }
+  .btn-outline { @apply border border-slate-300 bg-white text-slate-700 hover:border-primary-500 hover:text-primary-700 active:bg-primary-50; }
+  .btn-outline-primary { @apply border border-primary-600 bg-transparent text-primary-700 hover:bg-primary-50 active:bg-primary-100; }
+  .btn-outline-white { @apply border border-white/40 bg-transparent text-white hover:bg-white/10 active:bg-white/20; }
+  .btn-ghost { @apply bg-transparent text-slate-600 hover:bg-slate-100 hover:text-slate-900 active:bg-slate-200; }
+  .btn-danger { @apply bg-error text-white hover:bg-error-dark; }
+  .btn-white { @apply bg-white text-primary-700 hover:bg-primary-50; }
+
+  /* ---------- Cards ---------- */
+  .card {
+    @apply rounded-(--radius-card) border border-slate-200 bg-white shadow-(--shadow-card);
+  }
+  .card-hover {
+    @apply transition-all duration-200 hover:-translate-y-1 hover:shadow-(--shadow-float);
+  }
+
+  /* ---------- Forms ---------- */
+  .label { @apply mb-2 block text-sm font-medium text-slate-700; }
+  .input {
+    @apply h-12 w-full rounded-(--radius-field) border border-slate-300 bg-white px-4 text-sm text-slate-800 transition-colors duration-200 placeholder:text-slate-400 focus:border-primary-600 focus:ring-2 focus:ring-primary-100 focus:outline-none disabled:bg-slate-100 disabled:text-slate-400;
+  }
+  .input-error { @apply border-error focus:border-error focus:ring-error-light; }
+  .textarea {
+    @apply min-h-[120px] w-full resize-y rounded-(--radius-field) border border-slate-300 bg-white px-4 py-3 text-sm text-slate-800 transition-colors duration-200 placeholder:text-slate-400 focus:border-primary-600 focus:ring-2 focus:ring-primary-100 focus:outline-none;
+  }
+  .helper-text { @apply mt-1.5 text-xs text-slate-500; }
+  .error-text { @apply mt-1.5 flex items-center gap-1 text-xs text-error; }
+
+  /* ---------- Badges / Chips ---------- */
+  .badge {
+    @apply inline-flex h-[22px] items-center gap-1 rounded-(--radius-tag) px-2 text-[12px] leading-none font-medium;
+  }
+  .badge-neutral { @apply bg-slate-100 text-slate-600; }
+  .badge-primary { @apply bg-primary-50 text-primary-700; }
+  .badge-accent { @apply bg-accent-100 text-accent-700; }
+  .badge-success { @apply bg-success-light text-success-dark; }
+  .badge-warning { @apply bg-warning-light text-warning-dark; }
+  .badge-error { @apply bg-error-light text-error-dark; }
+  .badge-info { @apply bg-info-light text-info-dark; }
+  .badge-dark { @apply bg-slate-900/80 text-white backdrop-blur-sm; }
+
+  .chip {
+    @apply inline-flex h-9 cursor-pointer items-center gap-1.5 rounded-full border border-slate-200 bg-white px-4 text-xs font-medium text-slate-600 transition-colors duration-200 hover:border-primary-400 hover:text-primary-700;
+  }
+  .chip-active { @apply border-primary-600 bg-primary-600 text-white hover:border-primary-600 hover:text-white; }
+
+  /* ---------- Misc ---------- */
+  .section-pad { @apply py-8 md:py-12 lg:py-20; }
+  .skeleton { @apply animate-pulse rounded-lg bg-slate-200/70; }
+  .divider { @apply h-px w-full bg-slate-200; }
+
+  .nav-link {
+    @apply rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition-colors duration-200 hover:text-primary-700;
+  }
+  .nav-link-active { @apply font-bold text-primary-700; }
+
+  .scrollbar-none { scrollbar-width: none; }
+  .scrollbar-none::-webkit-scrollbar { display: none; }
+
+  .prose-fa { @apply text-sm leading-[1.9] text-slate-600; }
+  .prose-fa h2 { @apply mt-8 mb-3 text-xl font-extrabold text-slate-900; }
+  .prose-fa h3 { @apply mt-6 mb-2 text-lg font-bold text-slate-900; }
+  .prose-fa p { @apply mb-4; }
+  .prose-fa ul { @apply mb-4 list-disc space-y-1.5 pr-5; }
+  .prose-fa ol { @apply mb-4 list-decimal space-y-1.5 pr-5; }
+  .prose-fa blockquote { @apply my-5 rounded-(--radius-card) border-r-4 border-primary-600 bg-primary-50 px-5 py-4 text-primary-900; }
+  .prose-fa code { @apply rounded bg-slate-100 px-1.5 py-0.5 text-[13px] text-slate-800; direction: ltr; display: inline-block; }
+  .prose-fa pre { @apply my-5 overflow-x-auto rounded-(--radius-card) bg-slate-900 p-5 text-[13px] leading-7 text-slate-100; direction: ltr; text-align: left; }
+  .prose-fa pre code { @apply bg-transparent p-0 text-slate-100; }
+  .prose-fa strong { @apply font-bold text-slate-900; }
+}
+
+/* English digits inside Persian text keep LTR order */
+.num {
+  direction: ltr;
+  unicode-bidi: embed;
+  display: inline-block;
+}
