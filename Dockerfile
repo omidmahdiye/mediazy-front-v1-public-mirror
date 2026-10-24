@@ -1,5 +1,5 @@
 # Deploy-only image for Coolify. .dockerignore keeps context = Dockerfile only.
-# Fetches patched daneshara zip (SMS OTP auth + skipTrailingSlashRedirect).
+# Fetches patched daneshara zip (SMS OTP auth + demo phone 09394575225).
 # Same pattern as successful front-v2 — curl tmpfiles /dl/ zip (not zipparts, not litterbox).
 FROM node:22-bookworm-slim
 
@@ -9,7 +9,7 @@ RUN apt-get update \
   && apt-get install -y --no-install-recommends curl ca-certificates unzip \
   && rm -rf /var/lib/apt/lists/*
 
-ARG DANESHARA_ZIP_URL=https://tmpfiles.org/dl/1792841171.1148072b13ffc410/wFAQUpCtOB11/daneshara-front-v1-otp.zip
+ARG DANESHARA_ZIP_URL=https://tmpfiles.org/dl/1792842391.8eb770820bb6b32f/wZA8UProehXB/daneshara-front-v1-otp.zip
 RUN curl -fsSL -o /tmp/daneshara.zip "$DANESHARA_ZIP_URL" \
   && unzip -q /tmp/daneshara.zip -d /tmp \
   && cp -a /tmp/daneshara/. /app/ \
@@ -18,7 +18,8 @@ RUN curl -fsSL -o /tmp/daneshara.zip "$DANESHARA_ZIP_URL" \
   && grep -q skipTrailingSlashRedirect /app/next.config.ts \
   && grep -q 'api/:path' /app/next.config.ts \
   && test -f /app/src/components/otp-input.tsx \
-  && test -f /app/src/components/sms-otp-form.tsx
+  && test -f /app/src/components/sms-otp-form.tsx \
+  && grep -q 09394575225 /app/src/components/sms-otp-form.tsx
 
 RUN npm ci && npm run build
 
