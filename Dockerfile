@@ -1,18 +1,18 @@
-# Deploy-only image for Coolify. .dockerignore keeps context = Dockerfile only.
-# Fetches patched daneshara zip (skipTrailingSlashRedirect + dashboard cache headers).
+# Deploy-only image. Context is Dockerfile + zipparts/* (see .dockerignore).
+# Patched daneshara zip is base64-split under zipparts/ (trailing-slash fix included).
 FROM node:22-bookworm-slim
 
 WORKDIR /app
 
 RUN apt-get update \
-  && apt-get install -y --no-install-recommends curl ca-certificates unzip \
+  && apt-get install -y --no-install-recommends ca-certificates unzip \
   && rm -rf /var/lib/apt/lists/*
 
-ARG DANESHARA_ZIP_URL=https://litter.catbox.moe/z2yser.zip
-RUN curl -fsSL -o /tmp/daneshara.zip "$DANESHARA_ZIP_URL" \
+COPY zipparts /tmp/zipparts
+RUN cat /tmp/zipparts/part-* | base64 -d > /tmp/daneshara.zip \
   && unzip -q /tmp/daneshara.zip -d /tmp \
   && cp -a /tmp/daneshara/. /app/ \
-  && rm -rf /tmp/daneshara.zip /tmp/daneshara
+  && rm -rf /tmp/daneshara.zip /tmp/daneshara /tmp/zipparts
 
 RUN npm ci && npm run build
 
