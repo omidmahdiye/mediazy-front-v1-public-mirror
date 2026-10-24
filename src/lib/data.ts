@@ -1,0 +1,1 @@
+__LOAD_FROM__:/tmp/data-ts-raw.txt
