@@ -9,7 +9,7 @@ RUN apt-get update \
   && apt-get install -y --no-install-recommends curl ca-certificates unzip \
   && rm -rf /var/lib/apt/lists/*
 
-ARG DANESHARA_ZIP_URL=https://tmpfiles.org/dl/1792843514.ec43e178d5c57d41/woAtUdrC5ffO/daneshara-front-v1-otp-clear.zip
+ARG DANESHARA_ZIP_URL=https://tmpfiles.org/dl/1792844273.454a84c1f0d7cf71/wdAAUjrBu4Ve/daneshara-front-v1-no-prefill.zip
 RUN curl -fsSL -o /tmp/daneshara.zip "$DANESHARA_ZIP_URL" \
   && unzip -q /tmp/daneshara.zip -d /tmp \
   && cp -a /tmp/daneshara/. /app/ \
