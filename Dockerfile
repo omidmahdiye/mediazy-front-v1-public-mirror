@@ -1,5 +1,6 @@
-# Deploy-only image for Coolify. Does not modify application source.
-# Fetches the canonical daneshara.zip and runs next build/start as-is.
+# Deploy-only image for Coolify. Does not modify application source
+# except overlaying next.config.ts for the trailing-slash redirect fix.
+# Fetches the canonical daneshara.zip and runs next build/start.
 FROM node:22-bookworm-slim
 
 WORKDIR /app
@@ -13,6 +14,9 @@ RUN curl -fsSL -o /tmp/daneshara.zip "$DANESHARA_ZIP_URL" \
   && unzip -q /tmp/daneshara.zip -d /tmp \
   && cp -a /tmp/daneshara/. /app/ \
   && rm -rf /tmp/daneshara.zip /tmp/daneshara
+
+# Overlay: skipTrailingSlashRedirect + dashboard cache-bust headers
+COPY next.config.ts /app/next.config.ts
 
 RUN npm ci && npm run build
 
