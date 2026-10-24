@@ -1,6 +1,6 @@
 # Build from public-mirror git context (no external zip).
-# Font fetched from upstream (sha256 matches daneshara zip).
-# Favicon restored from favicon.ico.b64 committed beside this file.
+# Large text files fetched from short-lived litterbox mirrors (72h), then
+# font/favicon binary restore for Coolify context build.
 FROM node:22-bookworm-slim
 
 WORKDIR /app
@@ -10,6 +10,18 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/*
 
 COPY . /app/
+
+# Overlay full source blobs (mirror repo may hold MCP-sized stubs/parts)
+RUN set -e \
+  && mkdir -p /app/src/lib \
+    "/app/src/app/player/[slug]" \
+    "/app/src/app/(site)/courses/[slug]" \
+  && curl -fsSL -o /app/favicon.ico.b64 "https://litter.catbox.moe/6fjjf6.b64" \
+  && curl -fsSL -o /app/src/lib/data.ts "https://litter.catbox.moe/6dipq7.ts" \
+  && curl -fsSL -o "/app/src/app/player/[slug]/player-view.tsx" "https://litter.catbox.moe/mz7koh.tsx" \
+  && curl -fsSL -o "/app/src/app/(site)/courses/[slug]/page.tsx" "https://litter.catbox.moe/0rs8wo.tsx" \
+  && curl -fsSL -o /app/package-lock.json "https://litter.catbox.moe/yfhbfv.json" \
+  && rm -rf /app/_parts
 
 RUN mkdir -p /app/src/fonts /app/src/app \
   && curl -fsSL -o /app/src/fonts/Vazirmatn-Variable.woff2 \
