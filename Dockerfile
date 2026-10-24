@@ -1,22 +1,22 @@
-# Deploy-only image for Coolify. Does not modify application source
-# except overlaying next.config.ts for the trailing-slash redirect fix.
-# Fetches the canonical daneshara.zip and runs next build/start.
+# Build from public-mirror git context (no external zip).
+# Font fetched from upstream (sha256 matches daneshara zip).
+# Favicon restored from favicon.ico.b64 committed beside this file.
 FROM node:22-bookworm-slim
 
 WORKDIR /app
 
 RUN apt-get update \
-  && apt-get install -y --no-install-recommends curl ca-certificates unzip \
+  && apt-get install -y --no-install-recommends curl ca-certificates \
   && rm -rf /var/lib/apt/lists/*
 
-ARG DANESHARA_ZIP_URL=https://tmpfiles.org/dl/1792774997.a12e611743012a8d/w2AkUoo4YnkC/daneshara.zip
-RUN curl -fsSL -o /tmp/daneshara.zip "$DANESHARA_ZIP_URL" \
-  && unzip -q /tmp/daneshara.zip -d /tmp \
-  && cp -a /tmp/daneshara/. /app/ \
-  && rm -rf /tmp/daneshara.zip /tmp/daneshara
+COPY . /app/
 
-# Overlay: skipTrailingSlashRedirect + dashboard cache-bust headers
-COPY next.config.ts /app/next.config.ts
+RUN mkdir -p /app/src/fonts /app/src/app \
+  && curl -fsSL -o /app/src/fonts/Vazirmatn-Variable.woff2 \
+    "https://raw.githubusercontent.com/rastikerdar/vazirmatn/v33.003/fonts/webfonts/Vazirmatn%5Bwght%5D.woff2" \
+  && base64 -d /app/favicon.ico.b64 > /app/src/app/favicon.ico \
+  && rm -f /app/favicon.ico.b64 /app/README.md \
+  && rm -rf /app/_binprobe.dat /app/_binprobe2.dat
 
 RUN npm ci && npm run build
 
